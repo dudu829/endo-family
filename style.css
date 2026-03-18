@@ -226,7 +226,8 @@ h1 {
 .wish-label {
     position: absolute;
     top: -18px;
-    left: 15px;
+    left: 50px;
+　　transform: translateX(-50%);
     background: #ff8c00; /* 濃いめのピンク */
     color: white;
     padding: 6px 20px;
