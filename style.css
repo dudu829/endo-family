@@ -492,3 +492,28 @@ h1 {
     transform: translateY(3px); /* 押した時に沈む演出 */
     box-shadow: none;
 }
+
+/* 1つのコマの中で横スライドさせるための設定 */
+.inner-slider {
+    display: flex;            /* 中の写真を横一列に並べる */
+    overflow-x: auto;         /* はみ出たら横にスクロールできるようにする */
+    scroll-snap-type: x mandatory; /* スライドした時にピタッと止まる */
+    -webkit-overflow-scrolling: touch; /* スマホで滑らかに動くようにする */
+}
+
+.inner-slider img {
+    flex: 0 0 100%;           /* 1枚の写真がコマの横幅100%を使う */
+    scroll-snap-align: start; /* 写真の端で止まるようにする */
+    width: 100%;
+    aspect-ratio: 1 / 1;      /* 正方形にする（お好みで） */
+    object-fit: cover;        /* 写真が変に伸びないようにする */
+}
+
+/* スクロールバーを見えやすくする（お好みで） */
+.inner-slider::-webkit-scrollbar {
+    height: 5px;
+}
+.inner-slider::-webkit-scrollbar-thumb {
+    background: #ff8c00;
+    border-radius: 10px;
+}
