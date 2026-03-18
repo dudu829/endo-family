@@ -1,15 +1,24 @@
 // --- 1. ガチャの景品データ ---
 const GACHA_ITEMS = [
-    { name: "お皿洗い1回免除券", rare: false },
+    { name: "お皿洗い券", rare: false },
+    { name: "お風呂掃除券", rare: false },
+    { name: "パシリ券", rare: false },
+    { name: "送迎券", rare: false },
+    { name: "ムクの散歩券", rare: false },
     { name: "肩たたき15分券", rare: false },
     { name: "ゴミ出し代行券", rare: false },
     { name: "お風呂掃除免除券", rare: false },
+    { name: "夜ごはん代わりに作る券", rare: false },
+    { name: "ラーメンおごり券", rare: false },
     { name: "スタバ新作おごり券", rare: false },
     { name: "なんでも1つおねだり券", rare: false },
-    { name: "1日「家事休み」宣言券", rare: false },
+    { name: "【レア】ガソリン代おごり券", rare: false },
+    { name: "【レア】1日「家事休み」宣言券", rare: false },
     { name: "【激レア】欲しい靴をプレゼント券", rare: true },
-    { name: "【激レア】欲しい服を1着プレゼント券", rare: true },
+    { name: "【激レア】欲しいかばんをプレゼント券", rare: true },
+    { name: "【激レア】欲しい服を1プレゼント券", rare: true },
     { name: "【激レア】焼肉おごり券", rare: true }
+    { name: "【激激レア】旅行費プレゼント券", rare: true }
 ];
 
 // --- 2. データの読み込みと初期化 ---
