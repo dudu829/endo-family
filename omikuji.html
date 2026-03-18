@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>母ちゃんガチャ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@900&display=swap" rel="stylesheet">
+</head>
+
+<script>
+    // ログインしていなければ強制的に扉（index.html）に戻す
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<body class="sub-page gacha-page">
+
+    <div class="header-area">
+        <h2 class="section-title">🎰 邦恵ガチャ</h2>
+        <div class="gacha-status-card">
+            <p>今週の残り回数</p>
+            <div id="gacha-count" class="count-number">2</div>
+        </div>
+    </div>
+
+    <div class="gacha-container">
+        <div class="gacha-machine">
+            <div id="gacha-result-display" class="gacha-capsule">？</div>
+            <div class="gacha-handle"></div>
+        </div>
+
+        <button id="gacha-button" class="gacha-btn-main" onclick="spinGacha()">
+            ガチャを回す
+        </button>
+    </div>
+
+
+    <div class="back-home">
+        <a href="main.html">🏠 ホームへ戻る</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="main.html">🏠<span>ホーム</span></a></li>
+            <li><a href="photo.html">🖼️<span>思い出</span></a></li>
+            <li><a href="todo.html">✅<span>ToDo</span></a></li>
+            <li><a href="omikuji.html">🎰<span>ガチャ</span></a></li>
+            <li><a href="list.html">🎁<span>リスト</span></a></li>
+            <li><a href="calendar.html">📅<span>予定</span></a></li>
+        </ul>
+    </nav>
+
+    <script src="gacha.js"></script>
+</body>
+</html>

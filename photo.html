@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>思い出ギャラリー</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<script>
+    // ログインしていなければ強制的に扉（index.html）に戻す
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<body class="sub-page photo-page">
+
+    <div class="header-area">
+    <h2 class="section-title">🖼️ 思い出ギャラリー</h2>
+    
+    <div class="search-bar-unified">
+        <input type="text" id="unified-search" placeholder="日付やキーワードで探す">
+        <button onclick="filterPhotos()" class="search-btn">🔍</button>
+    </div>
+    <div style="text-align: center;">
+        <button onclick="resetSearch()" class="reset-link">すべて表示</button>
+    </div>
+</div>
+
+<div class="photo-container" id="photo-list">
+    <div class="photo-item" data-keyword="20230815 0815 家族旅行 温泉">
+        <img src="photo1.jpg" alt="思い出1">
+        <div class="photo-caption">家族旅行のとき</div>
+        <p class="photo-date">2023.08.15</p>
+    </div>
+    
+    <div class="photo-item" data-keyword="20240101 0101 お正月 ケーキ">
+        <img src="photo2.jpg" alt="思い出2">
+        <div class="photo-caption">美味しいケーキ</div>
+        <p class="photo-date">2024.01.01</p>
+    </div>
+    </div>
+
+    <div class="back-home">
+        <a href="main.html">🏠 ホームへ戻る</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="main.html">🏠<span>ホーム</span></a></li>
+            <li><a href="photo.html">🖼️<span>思い出</span></a></li>
+            <li><a href="todo.html">✅<span>ToDo</span></a></li>
+            <li><a href="omikuji.html">🎰<span>ガチャ</span></a></li>
+            <li><a href="list.html">🎁<span>獲得リスト</span></a></li>
+            <li><a href="calendar.html">📅<span>予定</span></a></li>
+        </ul>
+    </nav>
+
+<script>
+    function filterPhotos() {
+        // 入力された文字（数字でもキーワードでも）を取得
+        const query = document.getElementById('unified-search').value.toLowerCase().replace(/[\/\-\.]/g, ""); // スラッシュやドットを消して数字だけに変換
+        const photos = document.querySelectorAll('.photo-item');
+
+        photos.forEach(photo => {
+            const photoKeyword = photo.getAttribute('data-keyword').toLowerCase();
+            
+            // キーワードに検索文字が含まれているかチェック
+            if (photoKeyword.includes(query)) {
+                photo.style.display = "block";
+            } else {
+                photo.style.display = "none";
+            }
+        });
+    }
+
+    function resetSearch() {
+        document.getElementById('unified-search').value = "";
+        filterPhotos();
+    }
+
+    // エンターキーでも検索できるようにする
+    document.getElementById('unified-search').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            filterPhotos();
+        }
+    });
+</script>
+</body>
+</html>

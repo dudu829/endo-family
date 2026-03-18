@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>お楽しみカレンダー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    // ログインしていなければ強制的に扉（index.html）に戻す
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<body class="sub-page">
+
+    <div class="header-area">
+        <h2 class="section-title">📅 記念日・予定カウントダウン</h2>
+    </div>
+
+    <div class="wish-container">
+        <div class="wish-label">🌟 新しい予定・記念日を追加</div>
+        <button onclick="openRequestForm()" class="add-btn-big">
+        Googleフォームを開いて送る
+        </button>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 10px; text-align: center;">
+            ※追加を押すと送信画面（Googleフォーム）が開きます
+        </p>
+    </div>
+
+    <div class="countdown-main-card">
+        <div id="countdown-display" class="large-timer">
+            あと <span id="days-left">--</span> 日
+        </div>
+        <p id="event-name" class="event-title">✨お母さんの誕生日✨</p>
+        <p class="event-date">2026年3月20日</p>
+    </div>
+
+    <div class="mini-events">
+        <h3>今後の予定</h3>
+        <ul>
+            <li>✨ 8月29日：由菜の誕生日 ✨</li>
+            <li>✨ 10月5日：聖斗の誕生日 ✨</li>
+        </ul>
+    </div>
+
+     <div class="back-home">
+        <a href="main.html">🏠 ホームへ戻る</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="main.html">🏠<span>ホーム</span></a></li>
+            <li><a href="photo.html">🖼️<span>思い出</span></a></li>
+            <li><a href="todo.html">✅<span>ToDo</span></a></li>
+            <li><a href="omikuji.html">🎰<span>ガチャ</span></a></li> 
+            <li><a href="list.html">🎁<span>リスト</span></a></li>
+            <li><a href="calendar.html">📅<span>予定</span></a></li>
+        </ul>
+    </nav>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // カウントダウンの更新を最初に実行
+        updateCountdown();
+
+        // 🌟 戻ってきた時にメッセージを出す仕組み（ToDoのデザインと場所を統一！）
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('sent') === 'true') {
+            const messageArea = document.createElement('div');
+            // ToDoと全く同じデザイン設定
+            messageArea.style.cssText = "background:#fff3f3; color:#ff8c00; padding:15px; border-radius:10px; margin:10px; text-align:center; font-weight:bold; border:2px dashed #ffb6c1; position:relative;";
+            messageArea.innerHTML = `
+                💌 予定のリクエストを送ったよ！<br>
+                追加されるまで、少し待ってね🌸
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:5px; right:10px; background:none; border:none; color:#ffb6c1; font-size:20px; cursor:pointer;">×</button>
+            `;
+            
+            // 🌟 ボタンの枠（wish-container）の中、一番最後に差し込む
+            const container = document.querySelector('.wish-container');
+            if (container) {
+                container.appendChild(messageArea);
+            }
+
+            // 30秒後に自動で消える
+            setTimeout(() => { if(messageArea) messageArea.remove(); }, 30000);
+        }
+    });
+
+    // 2. ボタンを押した時の動き
+    function openRequestForm() {
+        const formUrl = "https://forms.gle/ov8ix6AGU3Mdvb3d8"; 
+
+        // 戻ってきた時にメッセージが出るように「印(?sent=true)」をつける
+        const currentUrl = window.location.pathname + "?sent=true";
+        window.history.replaceState(null, null, currentUrl);
+
+        // フォームを別タブで開く
+        window.open(formUrl, '_blank');
+    }
+
+    // カウントダウン計算用の関数
+    function updateCountdown() {
+        const targetDate = new Date("2026/03/20"); // お母さんの誕生日
+        const now = new Date();
+        const diff = targetDate - now;
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        const display = document.getElementById('days-left');
+        if(display) display.innerText = days > 0 ? days : 0;
+    }
+</script>
+</body>
+</html>

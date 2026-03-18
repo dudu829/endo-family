@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>獲得リスト</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    // ログインしていなければ強制的に扉（index.html）に戻す
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<body class="sub-page">
+
+    <div class="header-area">
+        <h2 class="section-title">🎁 獲得した景品</h2>
+        <p style="text-align:center; font-size:0.8rem; color:#666;">タップして使うことができるよ！</p>
+    </div>
+
+    <div id="inventory-list" class="inventory-grid">
+        </div>
+
+    <div class="back-home">
+        <a href="main.html">🏠 ホームへ戻る</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="main.html">🏠<span>ホーム</span></a></li>
+            <li><a href="photo.html">🖼️<span>思い出</span></a></li>
+            <li><a href="todo.html">✅<span>ToDo</span></a></li>
+            <li><a href="omikuji.html">🎰<span>ガチャ</span></a></li>
+            <li><a href="list.html">🎁<span>リスト</span></a></li>
+            <li><a href="calendar.html">📅<span>予定</span></a></li>
+        </ul>
+    </nav>
+
+    <script>
+        // 景品を表示するスクリプト
+        function renderInventory() {
+            const container = document.getElementById('inventory-list');
+            const inventory = JSON.parse(localStorage.getItem('mamaInventory')) || [];
+            
+            if (inventory.length === 0) {
+                container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding:20px;'>まだ景品がないよ。<br>ガチャを回してゲットしよう！</p>";
+                return;
+            }
+
+            container.innerHTML = "";
+            inventory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'inventory-item';
+                div.innerText = item;
+                div.onclick = () => useItem(index); // 使う機能
+                container.appendChild(div);
+            });
+        }
+
+        function useItem(index) {
+    const inventory = JSON.parse(localStorage.getItem('mamaInventory'));
+    const itemName = inventory[index];
+    
+    // 1. 確認ダイアログを出す
+    if (confirm(`「${itemName}」を使いますか？\n（あなたのLINEが立ち上がります）`)) {
+        
+        // 2. LINEに送るメッセージを作成
+        const message = `【お母さんからのリクエスト】\n「${itemName}」を使いたいそうです！よろしくお願いします✨`;
+        
+        // 3. LINEを立ち上げる（LINEのURLスキームを使用）
+        // ※これが一番簡単で確実な「通知」代わりになります
+        const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
+        window.location.href = lineUrl;
+
+        // 4. リストから削除して保存
+        inventory.splice(index, 1);
+        localStorage.setItem('mamaInventory', JSON.stringify(inventory));
+        
+        // 5. 画面を更新
+        renderInventory();
+    }
+}
+
+        document.addEventListener('DOMContentLoaded', renderInventory);
+    </script>
+</body>
+</html>

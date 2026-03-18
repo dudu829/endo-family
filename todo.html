@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>やりたいことリスト</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    // ログインしていなければ強制的に扉（index.html）に戻す
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<body class="sub-page">
+
+    <div class="header-area">
+        <h2 class="section-title">✅ やりたいことリスト</h2>
+    </div>
+
+    <div class="wish-container">
+        <div class="wish-label">🌟 お願いごとを家族に送る</div>
+        <button onclick="openRequestForm()" class="add-btn-big">
+        Googleフォームを開いて送る
+        </button>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 10px; text-align: center;">
+            ※追加を押すと送信画面（Googleフォーム）が開きます
+        </p>
+    </div>
+
+    <div class="todo-container">
+        <ul id="todo-list-ul" class="todo-list">
+            </ul>
+    </div>
+
+    <div class="back-home">
+        <a href="main.html">🏠 ホームへ戻る</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="main.html">🏠<span>ホーム</span></a></li>
+            <li><a href="photo.html">🖼️<span>思い出</span></a></li>
+            <li><a href="todo.html">✅<span>ToDo</span></a></li>
+            <li><a href="omikuji.html">🎰<span>ガチャ</span></a></li>
+            <li><a href="list.html">🎁<span>リスト</span></a></li>
+            <li><a href="calendar.html">📅<span>予定</span></a></li>
+        </ul>
+    </nav>
+
+   <script>
+        const SHARED_DATA = [
+            { text: "美味しいお寿司を食べる", completed: false },
+            { text: "二人で箱根温泉に行く", completed: false },
+            { text: "家族で温泉に行く", completed: false },
+            { text: "ムクと一緒に遠出する", completed: false }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTodoList();
+
+            // 🌟 戻ってきた時にメッセージを出す仕組み
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('sent') === 'true') {
+                const messageArea = document.createElement('div');
+                // デザインをお好みで少しリッチにしています
+                messageArea.style.cssText = "background:#fff3f3; color:#ff8c00; padding:15px; border-radius:10px; margin:10px; text-align:center; font-weight:bold; border:2px dashed #ffb6c1; position:relative;";
+                messageArea.innerHTML = `
+                    💌 お願いを送ったよ！<br>
+                    リストに追加されるまで、少し待ってね🌸
+                    <button onclick="this.parentElement.remove()" style="position:absolute; top:5px; right:10px; background:none; border:none; color:#ffb6c1; font-size:20px; cursor:pointer;">×</button>
+                `;
+                
+                const container = document.querySelector('.todo-container');
+                container.parentNode.insertBefore(messageArea, container);
+
+                // 30秒後に自動で消える
+                setTimeout(() => { if(messageArea) messageArea.remove(); }, 30000);
+            }
+        });
+
+        function renderTodoList() {
+            const listUl = document.getElementById('todo-list-ul');
+            listUl.innerHTML = "";
+            SHARED_DATA.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.className = todo.completed ? 'completed' : '';
+                li.innerHTML = `
+                    <div class="todo-item-content">
+                        <span class="status-icon">${todo.completed ? '✅' : '⏳'}</span>
+                        <label>${todo.text}</label>
+                    </div>
+                `;
+                listUl.appendChild(li);
+            });
+        }
+
+        // 🌟 ここを修正しました！入力チェックをなくしてシンプルに飛ばす関数です
+        function openRequestForm() {
+            const formUrl = "https://forms.gle/gUV7ZDXC1vCsjCzq9"; 
+
+            // 戻ってきたときにメッセージが出るように「印(?sent=true)」をつける
+            const currentUrl = window.location.pathname + "?sent=true";
+            window.history.replaceState(null, null, currentUrl);
+
+            // フォームを別タブで開く
+            window.open(formUrl, '_blank');
+        }
+    </script>
+</body>
+</html>

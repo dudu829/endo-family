@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>家族専用サイト</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Kiwi Maru', sans-serif; 
+            text-align: center; 
+            background: #fff5f7; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .login-box { 
+            background: white; 
+            padding: 40px 20px; 
+            border-radius: 30px; 
+            margin: 0 20px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05); 
+            border: 2px solid #ffb6c1;
+        }
+        h3 { color: #ff8c00; margin-bottom: 20px; }
+        input { 
+            padding: 15px; 
+            border: 2px solid #ffe4e1; 
+            border-radius: 10px; 
+            width: 80%; 
+            font-size: 18px; 
+            outline: none;
+            text-align: center;
+        }
+        input:focus { border-color: #ffb6c1; }
+        button { 
+            background: #ffb6c1; 
+            color: white; 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            margin-top: 25px; 
+            font-size: 18px; 
+            font-weight: bold;
+            box-shadow: 0 4px 0 #ff99aa;
+        }
+        button:active { transform: translateY(2px); box-shadow: none; }
+        #error { color: #ff6b6b; font-size: 14px; margin-top: 15px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h3>🗝️ パスワードををいれてね</h3>
+        <input type="password" id="pass" placeholder="パスワードを入力...">
+        <br>
+        <button onclick="checkPass()">入る！</button>
+        <p id="error">パスワードがちがうよ！</p>
+    </div>
+
+    <script>
+        function checkPass() {
+            const input = document.getElementById('pass').value;
+            
+            // 🌟 ここに好きな合言葉（パスワード）を書いてね！
+            const secretWord = "19790320"; // ← お母さんの誕生日にしてみたよ
+
+            if (input === secretWord) { 
+                // 正解なら「ログインしたよ」という記録を保存（ブラウザを閉じるまで有効）
+                sessionStorage.setItem('isLoggedIn', 'true');
+                // メイン画面（元々の index.html）へ移動
+                window.location.href = 'main.html'; 
+            } else {
+                // 間違っていたらエラーを表示
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('pass').value = ""; // 入力をリセット
+            }
+        }
+
+        // Enterキーでも入れるようにする設定
+        document.getElementById('pass').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPass();
+            }
+        });
+    </script>
+</body>
+</html>

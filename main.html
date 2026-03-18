@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>お母さん専用サイト</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    // ログインしていなければ強制的に扉（index.html）に戻す
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<body>
+
+    <section id="home">
+        <h1 id="main-title"></h1> 
+        
+        <div class="profile-card">
+            <div class="card-header">
+                <img src="mama.jpg" alt="お母さんの写真" class="mama-img">
+                <h2 class="ribbon-title">お母さんのプロフィール</h2>
+            </div>
+            
+            <div class="torisetsu-grid">
+                <div class="torisetsu-item">
+                    <span class="emoji">🏷️</span>
+                    <div class="text-group">
+                        <p class="label">名前</p>
+                        <p class="content">遠藤邦恵 (えんどうくにえ)</p>
+                    </div>
+                </div>
+                <div class="torisetsu-item">
+                    <span class="emoji">🎂</span>
+                    <div class="text-group">
+                        <p class="label">誕生日</p>
+                        <p class="content">1979年3月20日</p>
+                    </div>
+                </div>
+                <div class="torisetsu-item">
+                    <span class="emoji">💖</span>
+                    <div class="text-group">
+                        <p class="label">好きなもの</p>
+                        <p class="content">家 / 家族 / ラーメン / 一人時間</p>
+                    </div>
+                </div>
+                <div class="torisetsu-item">
+                    <span class="emoji">⚡</span>
+                    <div class="text-group">
+                        <p class="label">趣味</p>
+                        <p class="content">YouTube見ること / ドラマ見ること</p>
+                    </div>
+                </div>
+                <div class="torisetsu-item highlight">
+                    <span class="emoji">👑</span>
+                    <div class="text-group">
+                        <p class="label">ごきげん取り（攻略法）</p>
+                        <p class="content">ご飯をおごること / マッサージすること</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="main.html">🏠<span>ホーム</span></a></li>
+            <li><a href="photo.html">🖼️<span>思い出</span></a></li>
+            <li><a href="todo.html">✅<span>ToDo</span></a></li>
+            <li><a href="omikuji.html">🎰<span>ガチャ</span></a></li>
+            <li><a href="list.html">🎁<span>獲得リスト</span></a></li>
+            <li><a href="calendar.html">📅<span>予定</span></a></li>
+        </ul>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+/* =========================================
+   全体の基本設定
+   ========================================= */
+* { box-sizing: border-box; }
+
+body { 
+    background-color: #fff9e6; 
+    font-family: "Hiragino Sans", "Meiryo", sans-serif;
+    color: #333; 
+    margin: 0; 
+    padding: 0 15px 120px 15px; 
+    overflow-x: hidden; 
+}
+
+/* ぷっくり動くタイトル */
+h1 { 
+    font-size: 1.8rem; 
+    font-weight: 900; 
+    color: #ff6f61; 
+    text-align: center; 
+    margin-top: 40px; 
+    text-shadow: 2px 2px 0 #fff, 4px 4px 0 #ffd700; 
+    animation: bound 2s infinite ease-in-out; 
+}
+@keyframes bound { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.section-title { color: #ff8c00; text-align: center; font-size: 1.5rem; margin: 30px 0; }
+
+/* ページ切り替え用 */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* =========================================
+   ホーム画面（トリセツ）
+   ========================================= */
+.profile-card { background: #fff; border: 6px solid #ffd700; border-radius: 30px; padding: 20px 15px; box-shadow: 10px 10px 0px #ffefd5; text-align: center; }
+.mama-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 4px solid #ff8c00; margin-bottom: 15px; }
+.ribbon-title { background: #ff8c00; color: white; padding: 8px 20px; border-radius: 50px; font-size: 1.2rem; margin-bottom: 25px; box-shadow: 0 3px 0 #cc7000; }
+.torisetsu-grid { display: flex; flex-direction: column; gap: 12px; }
+.torisetsu-item { background: #fff9f0; padding: 10px 15px; border-radius: 15px; display: flex; align-items: center; border-left: 5px solid #ff8c00; text-align: left; }
+.torisetsu-item.highlight { background: #fff0f5; border-left-color: #ff1493; transform: rotate(-1deg); }
+.emoji { font-size: 1.5rem; margin-right: 12px; }
+.label { font-size: 0.7rem; color: #ff8c00; margin: 0; font-weight: bold; }
+.content { font-size: 1rem; margin: 0; font-weight: 800; }
+
+/* =========================================
+   思い出ページ（photo.html）
+   ========================================= */
+.photo-page .header-area { text-align: center; margin-bottom: 30px; }
+.photo-page .sub-text { font-size: 0.8rem; color: #888; margin-top: -20px; }
+
+/* 写真を並べるエリア */
+.photo-container { 
+    display: grid; 
+    gap: 20px; /* 写真同士の隙間 */
+    padding: 10px;
+    max-width: 800px; /* PCなどで広がりすぎないように */
+    margin: 0 auto; /* 中央寄せ */
+}
+
+/* ポラロイド風写真アイテム */
+.photo-item { 
+    background: white; 
+    padding: 10px 10px 20px 10px; /* 下側の余白を広く */
+    border-radius: 5px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    transform: rotate(calc(-1.5deg + 3deg * var(--i, 1))); /* わずかに傾ける */
+}
+
+/* 偶数番目は逆に傾ける */
+.photo-item:nth-child(even) { transform: rotate(1.5deg); }
+
+.photo-item img { 
+    width: 100%; 
+    aspect-ratio: 1 / 1; /* 正方形 */
+    object-fit: cover; 
+    border: 1px solid #f0f0f0; 
+    border-radius: 3px; 
+}
+
+.photo-caption { 
+    font-size: 0.8rem; 
+    font-weight: bold; 
+    color: #555; 
+    text-align: center; 
+    margin-top: 10px; 
+    font-family: 'Kiwi Maru', serif; /* 手書き風（オプション） */
+}
+
+.back-home { text-align: center; margin: 40px 0; }
+.back-home a { background: #ff8c00; color: white; text-decoration: none; padding: 12px 25px; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 0 #cc7000; }
+
+/* 1つにまとまった検索バーのデザイン */
+.search-bar-unified {
+    display: flex;
+    gap: 0;
+    margin: 0 15px 10px 15px;
+    background: white;
+    padding: 5px;
+    border-radius: 50px; /* 丸みのあるデザイン */
+    border: 3px solid #ffd700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.search-bar-unified input {
+    flex: 1;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 50px 0 0 50px;
+    outline: none;
+    background: transparent;
+}
+
+.search-btn {
+    background: #ff8c00;
+    border: none;
+    color: white;
+    padding: 0 20px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-btn:active {
+    background: #e67e00;
+    transform: scale(0.9);
+}
+
+.reset-link {
+    background: none;
+    border: none;
+    color: #ff8c00;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   ToDo・ガチャ・リスト（index.html）
+   ========================================= */
+/* ToDoリストのデザイン */
+.todo-container { background: white; border: 4px solid #4db6ac; border-radius: 20px; padding: 20px; box-shadow: 8px 8px 0px #e0f2f1; }
+.todo-list { list-style: none; padding: 0; margin: 0; }
+.todo-list li { display: flex; align-items: center; padding: 15px 0; border-bottom: 2px dashed #eee; }
+.todo-list input[type="checkbox"] { width: 25px; height: 25px; margin-right: 15px; accent-color: #4db6ac; }
+.todo-list label { font-size: 1rem; font-weight: bold; color: #555; transition: 0.3s; }
+.todo-list input[type="checkbox"]:checked + label { text-decoration: line-through; color: #ccc; }
+
+/* ガチャのデザイン */
+.gacha-container { background: #fff; border: 4px solid #ff8c00; border-radius: 20px; padding: 30px 10px; text-align: center; }
+.gacha-box { font-size: 1.5rem; margin-bottom: 20px; background: #eee; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 2px dashed #ccc; padding: 10px; font-weight: bold; color: #ff4500; }
+#gacha-button { background: #ff4500; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 5px 0 #b33000; font-weight: bold; width: 80%; }
+
+/* 獲得リスト（スマホは2列でOK！） */
+.inventory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+.inventory-item { background: white; border: 2px solid #ff8c00; border-radius: 15px; padding: 15px; text-align: center; font-size: 0.8rem; font-weight: bold; box-shadow: 0 4px 0 #ffe4b5; cursor: pointer; }
+
+/* =========================================
+   下部固定ナビゲーション（共通）
+   ========================================= */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 10px 0 25px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 1000; }
+.bottom-nav ul { display: flex; justify-content: space-around; list-style: none; padding: 0; margin: 0; }
+.bottom-nav a { text-decoration: none; color: #ff8c00; display: flex; flex-direction: column; align-items: center; font-weight: bold; }
+.bottom-nav span { font-size: 0.6rem; }
+.birthday-mode { color: #ff1493; background: linear-gradient(to right, #ff7e5f, #feb47b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* =========================================
+   ★ レスポンシブ設定（ここが重要！） ★
+   ========================================= */
+
+/* スマホ用の設定（画面が狭いとき） */
+@media screen and (max-width: 600px) {
+    /* 写真を1列に並べる */
+    .photo-container { 
+        grid-template-columns: 1fr; /* 1列 */
+    }
+}
+
+/* PC・タブレット用の設定（画面が広いとき） */
+@media screen and (min-width: 601px) {
+    /* 写真を2列に並べる */
+    .photo-container { 
+        grid-template-columns: 1fr 1fr; /* 2列 */
+    }
+}
+
+/* ToDoリスト内の削除ボタンを赤っぽく、押しやすく */
+.delete-todo {
+    background: #ffebee;
+    border: none;
+    color: #ff5252;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* チェックされた項目の文字を薄くする */
+.todo-list li input:checked + label {
+    color: #bbb;
+    text-decoration: line-through;
+}
+
+/* 外側の枠（カード風） */
+.wish-container {
+    background: #ffffff;
+    border: 3px solid #ffdbdb; /* 優しいパステルピンク */
+    border-radius: 20px;
+    padding: 25px 15px 15px 15px; /* 上を少し広めに */
+    margin: 10px 15px 30px 15px;
+    box-shadow: 0 6px 0 #ffdbdb; /* 立体的なカゲ */
+    position: relative;
+}
+
+/* 「お願いごとを書く」の小さなラベル */
+.wish-label {
+    position: absolute;
+    top: -18px;
+    left: 15px;
+    background: #ff8c00; /* 濃いめのピンク */
+    color: white;
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-weight: 900;      /* 一番太いウェイトに */
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    box-shadow: 0 3px 6px rgba(255, 140, 161, 0.4); /* ラベル自体にも少し影を */
+    z-index: 1;            /* 他の要素より上に */
+}
+
+/* 入力欄とボタンの横並び */
+.wish-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+/* 入力する場所 */
+#todo-input {
+    flex: 1;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 0.95rem;
+    outline: none;
+    background: #fdfdfd;
+    transition: all 0.3s;
+}
+
+/* 入力中に色が変わる */
+#todo-input:focus {
+    border-color: #ff8c00;
+    background: #fffafa;
+}
+
+/* 追加ボタン */
+.add-todo-btn {
+    background: #ff8c00;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #e67388; /* ボタンの厚み */
+    transition: all 0.1s;
+    white-space: nowrap;
+}
+
+/* ボタンを押した時の動き */
+.add-todo-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #e67388;
+}
+
+/* --- ガチャページ専用のデザイン --- */
+.gacha-page {
+    background: linear-gradient(180deg, #fff9e6 0%, #fff0f5 100%);
+}
+
+.gacha-status-card {
+    background: white;
+    border: 3px solid #ff8c00;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center;
+    width: 150px;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 0 #ffdbdb;
+}
+
+.gacha-status-card p {
+    font-size: 0.7rem;
+    margin: 0;
+    color: #ff8c00;
+    font-weight: bold;
+}
+
+.count-number {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #ff4500;
+}
+
+/* ガチャマシーン */
+.gacha-machine {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    background: #ff8c00;
+    border-radius: 50% 50% 20% 20%;
+    margin: 0 auto 30px;
+    border: 8px solid #ff4500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.gacha-capsule {
+    width: 160px;
+    height: 160px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff8c00;
+    text-align: center;
+    padding: 15px;
+    border: 4px dashed #ff8c00;
+    transition: 0.3s;
+}
+
+/* ぐるぐる回すボタン */
+.gacha-btn-main {
+    display: block;
+    width: 80%;
+    max-width: 250px;
+    margin: 0 auto;
+    background: #ff4500;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 6px 0 #b33000;
+    cursor: pointer;
+}
+
+.gacha-btn-main:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #b33000;
+}
+
+/* 獲得リストのアイテムをカード風に */
+.inventory-item {
+    background: #fff;
+    border: 2px solid #ffb6c1;
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff69b4;
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.inventory-item:active {
+    transform: scale(0.95);
+    background: #fff0f5;
+}
+
+/* 激レアアイテム（もし名前に【激レア】が入っていたら） */
+.inventory-item:contains("激レア") {
+    border: 3px solid #ffd700;
+    background: linear-gradient(135deg, #fff 0%, #fff9e6 100%);
+}
+
+/* カウントダウンページのメインカード */
+.countdown-main-card {
+    background: white;
+    margin: 30px 20px;
+    padding: 40px 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+    border: 3px solid #ffb6c1;
+}
+
+.large-timer {
+    font-size: 2rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+#days-left {
+    font-size: 5rem; /* 数字をめちゃくちゃ大きくして目立たせる */
+    color: #ff1493;
+    font-family: 'Arial Black', sans-serif;
+    display: block; /* 改行して数字を強調 */
+}
+
+.event-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+.event-date {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* 今後の予定リスト */
+.mini-events {
+    margin: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+}
+
+.mini-events h3 {
+    font-size: 1rem;
+    color: #ff69b4;
+    border-bottom: 1px solid #ffb6c1;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.mini-events ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mini-events li {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.wish-container {
+    background: white;
+    margin: 20px 15px; 
+    padding: 25px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center; /* 中身を真ん中に寄せる */
+}
+
+.wish-label {
+    font-weight: bold;
+    color: #ffffff; 
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* 🔘 ボタンを大きく、目立つように！ */
+.add-btn-big {
+    width: 100%;
+    background-color: #ffb6c1;
+    color: white;
+    border: none;
+    padding: 18px; /* 高さを出して押しやすく */
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #ff96a1; /* 立体感を出してボタンっぽく */
+    transition: 0.1s;
+}
+
+.add-btn-big:active {
+    transform: translateY(3px); /* 押した時に沈む演出 */
+    box-shadow: none;
+}
