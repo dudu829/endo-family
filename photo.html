@@ -52,6 +52,11 @@
         <p class="photo-date">2024.12.04</p>
     </div>
 
+<div id="lightbox" class="lightbox" onclick="closeZoom()">
+    <span class="close-btn">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
 
     <div class="back-home">
         <a href="main.html">🏠 ホームへ戻る</a>
@@ -97,6 +102,20 @@
             filterPhotos();
         }
     });
+
+    // 写真を拡大する関数
+function zoomImage(imgElement) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    
+    lightboxImg.src = imgElement.src; // クリックした写真のURLをセット
+    lightbox.style.display = 'flex';   // 画面を表示
+}
+
+// 拡大を閉じる関数
+function closeZoom() {
+    document.getElementById('lightbox').style.display = 'none';
+}
 </script>
 </body>
 </html>
