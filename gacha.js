@@ -17,37 +17,42 @@ const GACHA_ITEMS = [
     { name: "【激レア】欲しい靴をプレゼント券", rare: true },
     { name: "【激レア】欲しいかばんをプレゼント券", rare: true },
     { name: "【激レア】欲しい服を1プレゼント券", rare: true },
-    { name: "【激レア】焼肉おごり券", rare: true }
+    { name: "【激レア】焼肉おごり券", rare: true }, // ←カンマ追加
     { name: "【激激レア】旅行費プレゼント券", rare: true }
 ];
 
 // --- 2. データの読み込みと初期化 ---
 let inventory = JSON.parse(localStorage.getItem('mamaInventory')) || [];
 let gachaCount = localStorage.getItem('gachaCount') !== null ? parseInt(localStorage.getItem('gachaCount')) : 1;
-let lastResetDate = localStorage.getItem('lastResetDate') || ""; // 最後にリセットした「週」を記録
-
-// 📅 「1週間に1回追加（繰り越し対応）」の判定
-function getWeekNumber(d) {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-}
+let lastChargeDate = localStorage.getItem('lastChargeDate') || ""; 
 
 const now = new Date();
-const currentWeekKey = `${now.getFullYear()}-${getWeekNumber(now)}`;
+const todayStr = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+// 📅 3日に1回チャージする判定（古い「週」のコードは削除しました）
+if (lastChargeDate === "") {
+    localStorage.setItem('lastChargeDate', todayStr);
+} else {
+    const lastDate = new Date(lastChargeDate);
+    const diffTime = now - lastDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+
+    if (diffDays >= 3) {
+        gachaCount += 1; 
+        localStorage.setItem('gachaCount', gachaCount);
+        localStorage.setItem('lastChargeDate', todayStr); 
+    }
+}
 
 // --- 🎂 誕生日特別ボーナスの判定 ---
-const birthdayKey = `${now.getFullYear()}-03-20`; // 今年の誕生日キー
+const birthdayKey = `${now.getFullYear()}-03-20`; 
 const lastBirthdayBonusDate = localStorage.getItem('lastBirthdayBonusDate') || "";
 
-// 今日が3月20日 かつ まだ今年のボーナスをあげていない場合
 if (now.getMonth() === 2 && now.getDate() === 20 && lastBirthdayBonusDate !== birthdayKey) {
-    gachaCount += 3; // 3回分追加！
+    gachaCount += 3; 
     localStorage.setItem('gachaCount', gachaCount);
-    localStorage.setItem('lastBirthdayBonusDate', birthdayKey); // 今年分は完了と記録
+    localStorage.setItem('lastBirthdayBonusDate', birthdayKey); 
     
-    // お祝いメッセージ（ページを開いた時に出す）
     document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             alert("🎂 お誕生日おめでとうございます！ 🎂\n\n今日は特別にガチャを【3回分】プレゼントしたよ！🎁");
@@ -56,17 +61,6 @@ if (now.getMonth() === 2 && now.getDate() === 20 && lastBirthdayBonusDate !== bi
     });
 }
 
-// 週が変わっていたら、回数を +1 する（繰り越し）
-if (lastResetDate !== currentWeekKey) {
-    // 初回起動時以外で、週が変わっていれば追加
-    if (lastResetDate !== "") {
-        gachaCount += 1; 
-    }
-    localStorage.setItem('gachaCount', gachaCount);
-    localStorage.setItem('lastResetDate', currentWeekKey);
-}
-
-// ページを開いた時に残り回数を画面に出す
 document.addEventListener('DOMContentLoaded', () => {
     updateCountDisplay();
 });
@@ -81,7 +75,7 @@ function updateCountDisplay() {
 // --- 3. ガチャを回す機能 ---
 function spinGacha() {
     if (gachaCount <= 0) {
-        alert("今週のガチャはもうおわり！\nまた来週1回分チャージされるよ。");
+        alert("ガチャの回数がなくなっちゃった！\nまた3日後に1回分チャージされるよ。");
         return;
     }
 
@@ -96,8 +90,8 @@ function spinGacha() {
         const random = Math.floor(Math.random() * 100);
         let result;
 
-        // 💎 激レア確率を 5% に設定（ちょうどいいバランス！）
-        if (random < 5) {
+        // 💎 激レア確率を 2% に設定
+        if (random < 2) { 
             const rareItems = GACHA_ITEMS.filter(item => item.rare);
             result = rareItems[Math.floor(Math.random() * rareItems.length)];
         } else {
@@ -120,7 +114,6 @@ function spinGacha() {
         inventory.push(result.name);
         localStorage.setItem('mamaInventory', JSON.stringify(inventory));
 
-        // 回数を1減らして保存
         gachaCount--;
         localStorage.setItem('gachaCount', gachaCount);
         updateCountDisplay();
@@ -132,7 +125,4 @@ function spinGacha() {
         }, 300);
 
     }, 1500);
-
-      
-    
 }
