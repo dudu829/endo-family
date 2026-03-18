@@ -211,35 +211,21 @@ h1 {
     text-decoration: line-through;
 }
 
-/* 外側の枠（カード風） */
 .wish-container {
-    background: #ffffff;
-    border: 3px solid #ffdbdb; /* 優しいパステルピンク */
+    background: white;
+    margin: 20px 15px; 
+    padding: 25px 20px;
     border-radius: 20px;
-    padding: 25px 15px 15px 15px; /* 上を少し広めに */
-    margin: 10px 15px 30px 15px;
-    box-shadow: 0 6px 0 #ffdbdb; /* 立体的なカゲ */
-    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center; /* 中身を真ん中に寄せる */
 }
 
-/* 「お願いごとを書く」の小さなラベル */
 .wish-label {
-    position: absolute;
-    top: -18px;
-    left: 50px;
-　　transform: translateX(-50%);
-    background: #ff8c00; /* 濃いめのピンク */
-    color: white;
-    padding: 6px 20px;
-    border-radius: 50px;
-    font-weight: 900;      /* 一番太いウェイトに */
-    font-size: 0.9rem;
     font-weight: bold;
-    letter-spacing: 1.5px;
-    box-shadow: 0 3px 6px rgba(255, 140, 161, 0.4); /* ラベル自体にも少し影を */
-    z-index: 1;            /* 他の要素より上に */
+    color: #ffffff; 
+    margin-bottom: 15px;
+    font-size: 1.1rem;
 }
-
 /* 入力欄とボタンの横並び */
 .wish-input-row {
     display: flex;
