@@ -103,13 +103,56 @@
 
     // カウントダウン計算用の関数
     function updateCountdown() {
-        const targetDate = new Date("2026/03/20"); // お母さんの誕生日
-        const now = new Date();
-        const diff = targetDate - now;
-        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-        const display = document.getElementById('days-left');
-        if(display) display.innerText = days > 0 ? days : 0;
+    const now = new Date();
+    // 時間をリセットして「日付」だけで比較するようにする
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // 予定リスト（日付順に並べておくと良いです）
+    const events = [
+        { name: "✨お母さんの誕生日✨", date: new Date("2026/03/20") },
+        { name: "✨由菜の誕生日✨", date: new Date("2026/08/29") },
+        { name: "✨聖斗の誕生日✨", date: new Date("2026/10/05") }
+    ];
+
+    let targetEvent = null;
+
+    // まだ過ぎていない一番近い予定を探す
+    for (let event of events) {
+        if (event.date >= today) {
+            targetEvent = event;
+            break;
+        }
     }
+
+    const displayArea = document.querySelector('.countdown-main-card');
+    const daysDisplay = document.getElementById('days-left');
+    const nameDisplay = document.getElementById('event-name');
+    const dateDisplay = document.querySelector('.event-date');
+
+    if (targetEvent) {
+        // 予定がある場合
+        const diff = targetEvent.date - today;
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        nameDisplay.innerText = targetEvent.name;
+        dateDisplay.innerText = `${targetEvent.date.getFullYear()}年${targetEvent.date.getMonth() + 1}月${targetEvent.date.getDate()}日`;
+        
+        if (days === 0) {
+            daysDisplay.parentElement.innerHTML = "今日が本番です！おめでとう！🎉";
+        } else {
+            daysDisplay.innerText = days;
+        }
+        
+        // 💡 10日前になったらカードを目立たせる（オプション）
+        if (days <= 10) {
+            displayArea.style.border = "3px solid #ffb6c1";
+            displayArea.style.animation = "pulse 2s infinite";
+        }
+    } else {
+        // すべての予定が過ぎた場合
+        displayArea.innerHTML = "<p style='padding:20px;'>次の大きな予定を計画中...🌸</p>";
+    }
+}
 </script>
 </body>
 </html>
