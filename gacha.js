@@ -1,3 +1,17 @@
+// --- お母さん専用パスワード設定 ---
+// ログインチェックの後にこれを追加
+if (sessionStorage.getItem('isMamaAuthenticated') !== 'true') {
+    const mamaPass = prompt("お母さん専用パスワードを入力してね！");
+
+    // ここに正解のパスワードを決めてね！今は例として「1234」にしておきます
+    if (mamaPass === "235214") { 
+        sessionStorage.setItem('isMamaAuthenticated', 'true');
+        alert("認証成功！おかえり、お母さん🌸");
+    } else {
+        alert("パスワードが違うみたい…。ここは内緒の場所だよ！");
+        window.location.href = 'main.html'; // 間違えたらホームに戻す
+    }
+}
 // --- 1. ガチャの景品データ ---
 const GACHA_ITEMS = [
     { name: "お皿洗い券", rare: false },
